@@ -45,6 +45,11 @@ export default class AddNote extends Component {
       })
   }
 
+  checkInitialFolder(){
+    if(this.state.folderId === "..."){
+      return "Please choose a value!";
+    }
+  }
   render() {
     const { folders=[] } = this.context
     console.log(this.state.folderId);
@@ -78,7 +83,7 @@ export default class AddNote extends Component {
             </select>
           </div>
           <div className='buttons'>
-            <button type='submit' disabled={this.state.folderId !== "..."}>
+            <button type='submit' disabled={this.checkInitialFolder()}>
               Add note
             </button>
           </div>

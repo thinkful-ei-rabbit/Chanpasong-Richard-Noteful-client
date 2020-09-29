@@ -6,3 +6,9 @@
 .AddNote h2 {
   margin-left: 16px;
 }
+
+button:disabled {
+  background-color: #eee;
+  opacity: .5;
+}
+
