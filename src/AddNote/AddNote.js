@@ -1,49 +1,48 @@
-import React, { Component } from 'react'
-import NotefulForm from '../NotefulForm/NotefulForm'
-import ApiContext from '../ApiContext'
-import config from '../config'
-import './AddNote.css'
+import React, { Component } from "react";
+import NotefulForm from "../NotefulForm/NotefulForm";
+import ApiContext from "../ApiContext";
+import config from "../config";
+import "./AddNote.css";
 
 export default class AddNote extends Component {
   state = {
-    folderId: "..."
-  }
+    folderId: "...",
+  };
   static defaultProps = {
     history: {
-      push: () => { }
+      push: () => {},
     },
-  }
+  };
   static contextType = ApiContext;
 
-  handleSubmit = e => {
-    e.preventDefault()
+  handleSubmit = (e) => {
+    e.preventDefault();
     const newNote = {
-      name: e.target['note-name'].value,
-      content: e.target['note-content'].value,
-      folderId: e.target['note-folder-id'].value,
+      name: e.target["note-name"].value,
+      content: e.target["note-content"].value,
+      folderId: e.target["note-folder-id"].value,
       modified: new Date(),
-    }
+    };
     fetch(`${config.API_ENDPOINT}/notes`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'content-type': 'application/json',
-        'Authorization': `bearer ${config.API_TOKEN}`
+        "content-type": "application/json",
+        Authorization: `bearer ${config.API_TOKEN}`,
       },
       body: JSON.stringify(newNote),
     })
-      .then(res => {
-        if (!res.ok)
-          return res.json().then(e => Promise.reject(e))
-        return res.json()
+      .then((res) => {
+        if (!res.ok) return res.json().then((e) => Promise.reject(e));
+        return res.json();
       })
-      .then(note => {
-        this.context.addNote(note)
-        this.props.history.push(`/folder/${note.folderId}`)
+      .then((note) => {
+        this.context.addNote(note);
+        this.props.history.push(`/folder/${note.folderId}`);
       })
-      .catch(error => {
-        console.error({ error })
-      })
-  }
+      .catch((error) => {
+        console.error({ error });
+      });
+  };
 
   checkInitialFolder(){
     if(this.state.folderId === "..."){
@@ -51,44 +50,46 @@ export default class AddNote extends Component {
     }
   }
   render() {
-    const { folders=[] } = this.context
+    const { folders = [] } = this.context;
     console.log(this.state.folderId);
     return (
-      <section className='AddNote'>
+      <section className="AddNote">
         <h2>Create a note</h2>
         <NotefulForm onSubmit={this.handleSubmit}>
-          <div className='field'>
-            <label htmlFor='note-name-input'>
-              Name
-            </label>
-            <input type='text' id='note-name-input' name='note-name' required/>
+          <div className="field">
+            <label htmlFor="note-name-input">Name</label>
+            <input type="text" id="note-name-input" name="note-name" required />
           </div>
-          <div className='field'>
-            <label htmlFor='note-content-input'>
-              Content
-            </label>
-            <textarea id='note-content-input' name='note-content' required/>
+          <div className="field">
+            <label htmlFor="note-content-input">Content</label>
+            <textarea id="note-content-input" name="note-content" required />
           </div>
-          <div className='field'>
-            <label htmlFor='note-folder-select'>
-              Folder
-            </label>
-            <select id='note-folder-select' name='note-folder-id' onChange={(e) => this.setState({ folderId:e.target.value})}>
+          <div className="field">
+            <label htmlFor="note-folder-select">Folder</label>
+            <select
+              id="note-folder-select"
+              name="note-folder-id"
+              onChange={(e) => this.setState({ folderId: e.target.value })}
+            >
               <option value={null}>...</option>
-              {folders.map(folder =>
+              {folders.map((folder) => (
                 <option key={folder.id} value={folder.id}>
                   {folder.name}
                 </option>
-              )}
+              ))}
             </select>
           </div>
+<<<<<<< HEAD
           <div className='buttons'>
             <button type='submit' disabled={this.checkInitialFolder()}>
+=======
+          
+>>>>>>> abf96d66d3050ac7321e54b7f640a0cb518e181d
               Add note
             </button>
           </div>
         </NotefulForm>
       </section>
-    )
+    );
   }
 }
