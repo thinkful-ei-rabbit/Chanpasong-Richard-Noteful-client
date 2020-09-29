@@ -34,7 +34,6 @@ class App extends Component {
         return Promise.all([notesRes.json(), foldersRes.json()]);
       })
       .then(([notes, folders]) => {
-        console.log(notes, folders);
         this.setState({ notes, folders });
       })
       .catch((error) => {
@@ -56,7 +55,9 @@ class App extends Component {
 
   handleDeleteNote = (noteId) => {
     this.setState({
-      notes: this.state.notes.filter((note) => note.id !== noteId),
+      notes: this.state.notes.filter((note) => {
+        return note.id !== noteId;
+      }),
     });
   };
 
@@ -87,7 +88,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state);
     const value = {
       notes: this.state.notes,
       folders: this.state.folders,
