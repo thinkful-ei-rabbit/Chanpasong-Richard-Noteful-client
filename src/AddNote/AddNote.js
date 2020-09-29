@@ -5,6 +5,9 @@ import config from '../config'
 import './AddNote.css'
 
 export default class AddNote extends Component {
+  state = {
+    folderId: "..."
+  }
   static defaultProps = {
     history: {
       push: () => { }
@@ -23,7 +26,8 @@ export default class AddNote extends Component {
     fetch(`${config.API_ENDPOINT}/notes`, {
       method: 'POST',
       headers: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        'Authorization': `bearer ${config.API_TOKEN}`
       },
       body: JSON.stringify(newNote),
     })
@@ -43,6 +47,7 @@ export default class AddNote extends Component {
 
   render() {
     const { folders=[] } = this.context
+    console.log(this.state.folderId);
     return (
       <section className='AddNote'>
         <h2>Create a note</h2>
@@ -63,7 +68,7 @@ export default class AddNote extends Component {
             <label htmlFor='note-folder-select'>
               Folder
             </label>
-            <select id='note-folder-select' name='note-folder-id' required>
+            <select id='note-folder-select' name='note-folder-id' onChange={(e) => this.setState({ folderId:e.target.value})}>
               <option value={null}>...</option>
               {folders.map(folder =>
                 <option key={folder.id} value={folder.id}>
@@ -73,7 +78,7 @@ export default class AddNote extends Component {
             </select>
           </div>
           <div className='buttons'>
-            <button type='submit'>
+            <button type='submit' disabled={this.state.folderId !== "..."}>
               Add note
             </button>
           </div>

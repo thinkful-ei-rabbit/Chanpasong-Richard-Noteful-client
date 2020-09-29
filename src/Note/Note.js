@@ -19,6 +19,7 @@ export default class Note extends React.Component {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
+        "Authorization": `bearer ${config.API_TOKEN}`
       },
     })
       .then((res) => {

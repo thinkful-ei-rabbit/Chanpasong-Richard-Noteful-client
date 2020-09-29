@@ -18,12 +18,17 @@ class App extends Component {
   };
 
   componentDidMount() {
+    console.log("This should be the token", config.API_TOKEN);
     Promise.all([
       fetch(`${config.API_ENDPOINT}/notes`, {
-        Authorization: `bearer ${config.API_TOKEN}`,
+        headers: {
+          "Authorization": `bearer ${config.API_TOKEN}`
+        }
       }),
       fetch(`${config.API_ENDPOINT}/folders`, {
-        Authorization: `bearer ${config.API_TOKEN}`,
+        headers: {
+          'Authorization': `bearer ${config.API_TOKEN}`
+        }
       }),
     ])
       .then(([notesRes, foldersRes]) => {

@@ -17,10 +17,12 @@ export default class AddFolder extends Component {
     const folder = {
       name: e.target['folder-name'].value
     }
+    
     fetch(`${config.API_ENDPOINT}/folders`, {
       method: 'POST',
       headers: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        'Authorization': `bearer ${config.API_TOKEN}`
       },
       body: JSON.stringify(folder),
     })
