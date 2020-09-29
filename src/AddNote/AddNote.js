@@ -7,6 +7,7 @@ import "./AddNote.css";
 export default class AddNote extends Component {
   state = {
     folderId: "...",
+    submitted: false,
   };
   static defaultProps = {
     history: {
@@ -46,7 +47,6 @@ export default class AddNote extends Component {
   
   render() {
     const { folders = [] } = this.context;
-    console.log(this.state.folderId);
     return (
       <section className="AddNote">
         <h2>Create a note</h2>
@@ -64,7 +64,9 @@ export default class AddNote extends Component {
             <select
               id="note-folder-select"
               name="note-folder-id"
-              onChange={(e) => this.setState({ folderId: e.target.value })}
+              onChange={(e) =>
+                this.setState({ folderId: e.target.value, submitted: true })
+              }
             >
               <option value={null}>...</option>
               {folders.map((folder) => (
@@ -78,6 +80,11 @@ export default class AddNote extends Component {
             <button type='submit' disabled={this.state.folderId === "..."}>
               Add note
             </button>
+            {this.state.folderId === "..." && this.state.submitted ? (
+              <p>Folder Must Be Selected</p>
+            ) : (
+              <span />
+            )}
           </div>
         </NotefulForm>
       </section>
